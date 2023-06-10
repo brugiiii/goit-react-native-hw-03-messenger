@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   title: {
     marginBottom: 32,
 
-    // fontFamily: "Roboto",
+    fontFamily: "Roboto-Medium",
     fontWeight: 500,
     fontSize: 30,
     lineHeight: 35,
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
 
     height: 50,
 
-    // fontFamily: "Roboto",
+    fontFamily: "Roboto-Regular",
     fontSize: 16,
     lineHeight: 19,
 
@@ -190,6 +190,7 @@ const styles = StyleSheet.create({
     right: 16,
   },
   showPasswordButtonText: {
+    fontFamily: "Roboto-Regular",
     fontSize: 16,
     lineHeight: 19,
 
@@ -208,12 +209,14 @@ const styles = StyleSheet.create({
   },
   registerButtonText: {
     textAlign: "center",
+    fontFamily: "Roboto-Regular",
     fontSize: 16,
     lineHeight: 19,
 
     color: "#fff",
   },
   logInButtonText: {
+    fontFamily: "Roboto-Regular",
     fontSize: 16,
     lineHeight: 19,
     textAlign: "center",

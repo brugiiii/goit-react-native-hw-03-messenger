@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
   title: {
     marginBottom: 33,
 
+    fontFamily: "Roboto-Medium",
     fontSize: 30,
     lineHeight: 35,
     textAlign: "center",
@@ -135,6 +136,7 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
 
     color: "#212121",
+    fontFamily: "Roboto-Regular",
     fontSize: 16,
     lineHeight: 19,
 
@@ -149,6 +151,7 @@ const styles = StyleSheet.create({
     right: 16,
   },
   showPasswordButtonText: {
+    fontFamily: "Roboto-Regular",
     fontSize: 16,
     lineHeight: 19,
 
@@ -172,6 +175,7 @@ const styles = StyleSheet.create({
   },
   registrationButton: {},
   registrationButtonText: {
+    fontFamily: "Roboto-Regular",
     fontSize: 16,
     lineHeight: 19,
     textAlign: "center",

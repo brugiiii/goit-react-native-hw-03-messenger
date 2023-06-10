@@ -7,13 +7,17 @@ export default function App() {
   const [switcher, setSwitcher] = useState(false);
 
   const [fontsLoaded] = useFonts({
-    "Roboto-Black": require("./assets/fonts/Roboto-Black.ttf"),
+    "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
     "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
   });
 
   const toggle = () => {
     setSwitcher(!switcher);
   };
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return isLogIn ? (
     <PostsScreen />
