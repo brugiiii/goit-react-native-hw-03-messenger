@@ -7,61 +7,85 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
+import { useState } from "react";
 
 export const LoginScreen = ({ toggle }) => {
-  return (
-    <View style={styles.container}>
-      <ImageBackground
-        style={styles.backgroundImage}
-        source={require("../../assets/images/backgroundPhoto.jpeg")}
-      >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
-          <View style={styles.authorizeContainer}>
-            <Text style={styles.title}>Увійти</Text>
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
-            <View>
-              <View style={{ marginBottom: 16 }}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Адреса електронної пошти"
-                  placeholderTextColor={"#BDBDBD"}
-                  keyboardType="email-address"
-                />
-              </View>
-              <View style={{ marginBottom: 43, position: "relative" }}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Пароль"
-                  placeholderTextColor={"#BDBDBD"}
-                  secureTextEntry={true}
-                />
-                <TouchableOpacity style={styles.showPasswordButton}>
-                  <Text style={styles.showPasswordButtonText}>Показати</Text>
+  const handleFocus = () => {
+    setIsKeyboardVisible(true);
+  };
+
+  const handleBlur = () => {
+    setIsKeyboardVisible(false);
+  };
+
+  return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <ImageBackground
+          style={styles.backgroundImage}
+          source={require("../../assets/images/backgroundPhoto.jpeg")}
+        >
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+          >
+            <View
+              style={{
+                ...styles.authorizeContainer,
+                height: isKeyboardVisible ? 248 : 489,
+              }}
+            >
+              <Text style={styles.title}>Увійти</Text>
+
+              <View>
+                <View style={{ marginBottom: 16 }}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Адреса електронної пошти"
+                    placeholderTextColor={"#BDBDBD"}
+                    keyboardType="email-address"
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                  />
+                </View>
+                <View style={{ marginBottom: 43, position: "relative" }}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Пароль"
+                    placeholderTextColor={"#BDBDBD"}
+                    secureTextEntry={true}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                  />
+                  <TouchableOpacity style={styles.showPasswordButton}>
+                    <Text style={styles.showPasswordButtonText}>Показати</Text>
+                  </TouchableOpacity>
+                </View>
+                <TouchableOpacity style={styles.logInButton}>
+                  <Text style={styles.logInButtonText}>Увійти</Text>
                 </TouchableOpacity>
               </View>
-              <TouchableOpacity style={styles.logInButton}>
-                <Text style={styles.logInButtonText}>Увійти</Text>
+
+              <TouchableOpacity
+                style={styles.registrationButton}
+                onPress={toggle}
+              >
+                <Text style={styles.registrationButtonText}>
+                  Немає акаунту?
+                  <Text style={{ textDecorationLine: "underline" }}>
+                    Зареєструватися
+                  </Text>
+                </Text>
               </TouchableOpacity>
             </View>
-
-            <TouchableOpacity
-              style={styles.registrationButton}
-              onPress={toggle}
-            >
-              <Text style={styles.registrationButtonText}>
-                Немає акаунту?
-                <Text style={{ textDecorationLine: "underline" }}>
-                  Зареєструватися
-                </Text>
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </KeyboardAvoidingView>
-      </ImageBackground>
-    </View>
+          </KeyboardAvoidingView>
+        </ImageBackground>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -79,16 +103,14 @@ const styles = StyleSheet.create({
     paddingTop: 32,
     paddingHorizontal: 16,
 
-    height: 489,
-
     backgroundColor: "#fff",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
   },
   title: {
+    fontFamily: "Roboto-Medium",
     marginBottom: 33,
 
-    fontWeight: 500,
     fontSize: 30,
     lineHeight: 35,
     textAlign: "center",
