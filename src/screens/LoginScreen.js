@@ -14,6 +14,8 @@ import { useState } from "react";
 
 export const LoginScreen = ({ toggle }) => {
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleFocus = () => {
     setIsKeyboardVisible(true);
@@ -21,6 +23,12 @@ export const LoginScreen = ({ toggle }) => {
 
   const handleBlur = () => {
     setIsKeyboardVisible(false);
+  };
+
+  const onSubmit = () => {
+    console.log(`email: ${email}, password: ${password}`);
+    setEmail("");
+    setPassword("");
   };
 
   return (
@@ -48,8 +56,11 @@ export const LoginScreen = ({ toggle }) => {
                     placeholder="Адреса електронної пошти"
                     placeholderTextColor={"#BDBDBD"}
                     keyboardType="email-address"
+                    autoCapitalize="none"
                     onFocus={handleFocus}
                     onBlur={handleBlur}
+                    value={email}
+                    onChangeText={setEmail}
                   />
                 </View>
                 <View style={{ marginBottom: 43, position: "relative" }}>
@@ -60,12 +71,14 @@ export const LoginScreen = ({ toggle }) => {
                     secureTextEntry={true}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
+                    value={password}
+                    onChangeText={setPassword}
                   />
                   <TouchableOpacity style={styles.showPasswordButton}>
                     <Text style={styles.showPasswordButtonText}>Показати</Text>
                   </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.logInButton}>
+                <TouchableOpacity style={styles.logInButton} onPress={onSubmit}>
                   <Text style={styles.logInButtonText}>Увійти</Text>
                 </TouchableOpacity>
               </View>
@@ -108,7 +121,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 25,
   },
   title: {
-    fontFamily: "Roboto-Medium",
     marginBottom: 33,
 
     fontSize: 30,

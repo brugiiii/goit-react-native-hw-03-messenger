@@ -16,6 +16,9 @@ import { useState } from "react";
 
 export const RegistrationScreen = ({ toggle }) => {
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  const [login, setLogin] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleFocus = () => {
     setIsKeyboardVisible(true);
@@ -23,6 +26,13 @@ export const RegistrationScreen = ({ toggle }) => {
 
   const handleBlur = () => {
     setIsKeyboardVisible(false);
+  };
+
+  const onSubmit = () => {
+    console.log(`login: ${login}, email: ${email}, password: ${password}`);
+    setLogin("");
+    setEmail("");
+    setPassword("");
   };
 
   return (
@@ -53,8 +63,12 @@ export const RegistrationScreen = ({ toggle }) => {
                   <TextInput
                     placeholder="Логін"
                     style={{ ...styles.input, marginBottom: 16 }}
+                    utoCapitalize="none"
                     onFocus={handleFocus}
                     onBlur={handleBlur}
+                    value={login}
+                    onChangeText={setLogin}
+                    a
                   />
                 </View>
                 <View>
@@ -62,8 +76,11 @@ export const RegistrationScreen = ({ toggle }) => {
                     placeholder="Адреса електронної пошти"
                     style={{ ...styles.input, marginBottom: 16 }}
                     keyboardType="email-address"
+                    autoCapitalize="none"
                     onFocus={handleFocus}
                     onBlur={handleBlur}
+                    value={email}
+                    onChangeText={setEmail}
                   />
                 </View>
                 <View style={{ marginBottom: 43, position: "relative" }}>
@@ -73,12 +90,17 @@ export const RegistrationScreen = ({ toggle }) => {
                     secureTextEntry={true}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
+                    value={password}
+                    onChangeText={setPassword}
                   />
                   <TouchableOpacity style={styles.showPasswordButton}>
                     <Text style={styles.showPasswordButtonText}>Показати</Text>
                   </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.registerButtonContainer}>
+                <TouchableOpacity
+                  style={styles.registerButtonContainer}
+                  onPress={onSubmit}
+                >
                   <Text style={styles.registerButtonText}>Зареєстуватися</Text>
                 </TouchableOpacity>
               </View>
