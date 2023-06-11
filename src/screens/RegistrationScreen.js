@@ -13,12 +13,15 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useState } from "react";
+import { sendEmailValidationRequest } from "../services/api";
+import backgroundImage from "../../assets/images/backgroundPhoto.jpeg";
 
 export const RegistrationScreen = ({ toggle }) => {
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(true);
 
   const handleFocus = () => {
     setIsKeyboardVisible(true);
@@ -28,11 +31,17 @@ export const RegistrationScreen = ({ toggle }) => {
     setIsKeyboardVisible(false);
   };
 
-  const onSubmit = () => {
-    console.log(`login: ${login}, email: ${email}, password: ${password}`);
-    setLogin("");
-    setEmail("");
-    setPassword("");
+  const onSubmit = async () => {
+    const isValid = await sendEmailValidationRequest(email);
+
+    if (isValid) {
+      console.log(`login: ${login}, email: ${email}, password: ${password}`);
+      setLogin("");
+      setEmail("");
+      setPassword("");
+    } else {
+      console.log("EMAIL WAS INVALID.");
+    }
   };
 
   return (
@@ -40,7 +49,7 @@ export const RegistrationScreen = ({ toggle }) => {
       <View style={styles.container}>
         <ImageBackground
           style={styles.backgroundImage}
-          source={require("../../assets/images/backgroundPhoto.jpeg")}
+          source={backgroundImage}
         >
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -48,7 +57,7 @@ export const RegistrationScreen = ({ toggle }) => {
             <View
               style={{
                 ...styles.registrationContainer,
-                height: isKeyboardVisible ? 374 : 549,
+                paddingBottom: isKeyboardVisible ? 32 : 78,
               }}
             >
               <View style={styles.avatarContainer}>
@@ -87,14 +96,19 @@ export const RegistrationScreen = ({ toggle }) => {
                   <TextInput
                     placeholder="Пароль"
                     style={styles.input}
-                    secureTextEntry={true}
+                    secureTextEntry={showPassword}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     value={password}
                     onChangeText={setPassword}
                   />
-                  <TouchableOpacity style={styles.showPasswordButton}>
-                    <Text style={styles.showPasswordButtonText}>Показати</Text>
+                  <TouchableOpacity
+                    style={styles.showPasswordButton}
+                    onPress={() => setShowPassword(!showPassword)}
+                  >
+                    <Text style={styles.showPasswordButtonText}>
+                      {showPassword ? "Показати" : "Приховати"}
+                    </Text>
                   </TouchableOpacity>
                 </View>
                 <TouchableOpacity
@@ -144,7 +158,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: -60,
     left: "50%",
-    transform: [{ translateX: -48 }],
+    marginLeft: -50,
   },
   avatar: {
     width: 120,

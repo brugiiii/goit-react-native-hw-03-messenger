@@ -11,11 +11,14 @@ import {
   Keyboard,
 } from "react-native";
 import { useState } from "react";
+import { sendEmailValidationRequest } from "../services/api";
+import backgroundImage from "../../assets/images/backgroundPhoto.jpeg";
 
 export const LoginScreen = ({ toggle }) => {
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(true);
 
   const handleFocus = () => {
     setIsKeyboardVisible(true);
@@ -25,10 +28,16 @@ export const LoginScreen = ({ toggle }) => {
     setIsKeyboardVisible(false);
   };
 
-  const onSubmit = () => {
-    console.log(`email: ${email}, password: ${password}`);
-    setEmail("");
-    setPassword("");
+  const onSubmit = async () => {
+    const isValid = await sendEmailValidationRequest(email);
+
+    if (isValid) {
+      console.log(`email: ${email}, password: ${password}`);
+      setEmail("");
+      setPassword("");
+    } else {
+      console.log("EMAIL WAS INVALID.");
+    }
   };
 
   return (
@@ -36,7 +45,7 @@ export const LoginScreen = ({ toggle }) => {
       <View style={styles.container}>
         <ImageBackground
           style={styles.backgroundImage}
-          source={require("../../assets/images/backgroundPhoto.jpeg")}
+          source={backgroundImage}
         >
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -44,7 +53,7 @@ export const LoginScreen = ({ toggle }) => {
             <View
               style={{
                 ...styles.authorizeContainer,
-                height: isKeyboardVisible ? 248 : 489,
+                paddingBottom: isKeyboardVisible ? 32 : 144,
               }}
             >
               <Text style={styles.title}>Увійти</Text>
@@ -68,14 +77,19 @@ export const LoginScreen = ({ toggle }) => {
                     style={styles.input}
                     placeholder="Пароль"
                     placeholderTextColor={"#BDBDBD"}
-                    secureTextEntry={true}
+                    secureTextEntry={showPassword}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     value={password}
                     onChangeText={setPassword}
                   />
-                  <TouchableOpacity style={styles.showPasswordButton}>
-                    <Text style={styles.showPasswordButtonText}>Показати</Text>
+                  <TouchableOpacity
+                    style={styles.showPasswordButton}
+                    onPress={() => setShowPassword(!showPassword)}
+                  >
+                    <Text style={styles.showPasswordButtonText}>
+                      {showPassword ? "Показати" : "Приховати"}
+                    </Text>
                   </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={styles.logInButton} onPress={onSubmit}>
